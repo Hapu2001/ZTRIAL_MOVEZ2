@@ -1,0 +1,78 @@
+managed implementation in class zbp_i_purchaseorder_1 unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_PURCHASEORDER_1 alias PurchaseOrder
+persistent table zpurchaseorder_1
+draft table zpo_d_1
+lock master total etag LastChangedAt
+authorization master ( none )
+etag master LastChangedAt
+{
+  create;
+  update;
+  delete;
+
+  field ( readonly ) CreatedBy, LastChangedAt, PoDate, TotalAmount;
+
+  determination setPoDate on modify { create; }
+
+  association _Items { create; with draft; }
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+/* Thêm Action từ chối đơn hàng với Abstract Entity làm Parameter */
+  action rejectPurchaseOrder parameter ZI_PO_REJECT_PARAM_1 result [1] $self;
+
+  mapping for zpurchaseorder_1
+  {
+    PoID          = po_id;
+    VendorID      = vendor_id;
+    PurchOrg      = purch_org;
+    CurrencyCode  = currency_code;
+    TotalAmount   = total_amount;
+    Status        = status;
+    PoDate        = po_date;
+    DeliveryDate  = delivery_date;
+    CreatedBy     = created_by;
+    LastChangedAt = last_changed_at;
+  }
+}
+
+define behavior for ZI_POITEM_1 alias PoItem
+persistent table zpoitem_1
+draft table zpoitem_d_1
+lock dependent by _PurchaseOrder
+authorization dependent by _PurchaseOrder
+etag master LastChangedAt
+{
+  update;
+  delete;
+
+  field ( readonly ) LastChangedAt;
+  field ( readonly : update ) PoID;
+  field ( mandatory : create ) ItemID;
+
+  determination CalculateTotalAmount on modify { create; delete; field NetValue; }
+
+  association _PurchaseOrder { with draft; }
+
+  mapping for zpoitem_1
+  {
+    PoID          = po_id;
+    ItemID        = item_id;
+    MaterialID    = material_id;
+    Plant         = plant;
+    Quantity      = quantity;
+    UnitOfMeasure = unit_of_measure;
+    CurrencyCode  = currency_code;
+    UnitPrice     = unit_price;
+    NetValue      = net_value;
+    DeliveryDate  = delivery_date;
+    LastChangedAt = last_changed_at;
+  }
+}

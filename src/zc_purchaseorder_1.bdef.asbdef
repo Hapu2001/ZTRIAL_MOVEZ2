@@ -1,0 +1,27 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_PURCHASEORDER_1 alias PurchaseOrder
+{
+  use create;
+  use update;
+  // Không khai báo 'use delete;' để ngăn người dùng xóa PO từ UI
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Items { create; with draft; }
+  use action rejectPurchaseOrder;
+}
+
+define behavior for ZC_POITEM_1 alias PoItem
+{
+  use update;
+  use delete;
+
+  use association _PurchaseOrder { with draft; }
+}

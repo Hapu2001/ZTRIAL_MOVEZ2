@@ -1,0 +1,91 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'Purchase Order',
+    typeNamePlural: 'Purchase Orders',
+    title: { type: #STANDARD, value: 'PoID' },
+    description: { value: 'VendorDisplay' }
+  }
+}
+annotate view ZC_PURCHASEORDER_1 with 
+{
+  /* Cấu hình các Facet (Khu vực hiển thị trên Object Page) */
+  @UI.facet: [
+    {
+      id: 'GeneralInfo',
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'General Information',
+      position: 10
+    },
+    {
+      id: 'LineItems',
+      type: #LINEITEM_REFERENCE,
+      label: 'Purchase Order Items',
+      position: 20,
+      targetElement: '_Items' /* Điều hướng hiển thị bảng con Items */
+    }
+  ]
+
+  @UI: {
+    lineItem: [
+      { position: 10, label: 'PO Number' },
+      { type: #FOR_ACTION, dataAction: 'rejectPurchaseOrder', label: 'Reject PO' }
+    ],
+    identification: [
+      { position: 10, label: 'PO Number' },
+      { type: #FOR_ACTION, dataAction: 'rejectPurchaseOrder', label: 'Reject PO' }
+    ]
+  }
+  PoID;
+
+  @UI: {
+    lineItem:       [ { position: 20, label: 'Vendor' } ],
+    identification: [ { position: 20, label: 'Vendor' } ],
+    selectionField: [ { position: 10 } ]
+  }
+  VendorID;
+
+  @UI: {
+    lineItem:       [ { position: 30, label: 'Purchasing Org' } ],
+    identification: [ { position: 30, label: 'Purchasing Org' } ]
+  }
+  PurchOrg;
+
+  @UI: {
+    lineItem:       [ { position: 35, label: 'Currency' } ],
+    identification: [ { position: 35, label: 'Currency' } ]
+  }
+  @Consumption.valueHelpDefinition: [{ entity: { name: 'I_Currency', element: 'Currency' } }]
+  CurrencyCode;
+
+  @UI: {
+    lineItem:       [ { position: 40, label: 'Total Amount' } ],
+    identification: [ { position: 40, label: 'Total Amount' } ]
+  }
+  TotalAmount;
+
+  @UI: {
+    lineItem:       [ { position: 50, label: 'Tax Amount' } ],
+    identification: [ { position: 50, label: 'Tax Amount' } ]
+  }
+  TaxAmount;
+
+  @UI: {
+    lineItem:       [ { position: 60, label: 'Status' } ],
+    identification: [ { position: 60, label: 'Status' } ],
+    selectionField: [ { position: 20 } ]
+  }
+  Status;
+
+  @UI: {
+    lineItem:       [ { position: 70, label: 'Delivery Date' } ],
+    identification: [ { position: 70, label: 'Delivery Date' } ]
+  }
+  DeliveryDate;
+
+  @UI: {
+    lineItem:       [ { position: 80, label: 'Urgency' } ],
+    identification: [ { position: 80, label: 'Urgency' } ]
+  }
+  UrgencyFlag;
+}

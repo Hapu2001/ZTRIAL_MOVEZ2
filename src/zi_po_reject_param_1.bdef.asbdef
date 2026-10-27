@@ -1,0 +1,6 @@
+abstract;
+strict ( 2 );
+
+define behavior for ZI_PO_REJECT_PARAM_1 //alias <alias_name>
+{
+}

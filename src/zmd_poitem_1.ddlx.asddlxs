@@ -1,0 +1,70 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'Purchase Order Item',
+    typeNamePlural: 'Purchase Order Items',
+    title: { type: #STANDARD, value: 'ItemID' },
+    description: { value: 'MaterialID' }
+  }
+}
+annotate view ZC_POITEM_1 with 
+{
+  /* Định nghĩa vùng hiển thị thông tin chi tiết của Item */
+  @UI.facet: [
+    {
+      id: 'ItemDetails',
+      type: #IDENTIFICATION_REFERENCE,
+      label: 'Item Details',
+      position: 10
+    }
+  ]
+
+  @UI: {
+    lineItem:       [ { position: 10, label: 'Item No' } ],
+    identification: [ { position: 10, label: 'Item No' } ]
+  }
+  ItemID;
+
+  @UI: {
+    lineItem:       [ { position: 20, label: 'Material' } ],
+    identification: [ { position: 20, label: 'Material' } ]
+  }
+  MaterialID;
+
+  @UI: {
+    lineItem:       [ { position: 30, label: 'Plant' } ],
+    identification: [ { position: 30, label: 'Plant' } ]
+  }
+  Plant;
+
+  @UI: {
+    lineItem:       [ { position: 40, label: 'Quantity' } ],
+    identification: [ { position: 40, label: 'Quantity' } ]
+  }
+  Quantity;
+
+  @UI: {
+    lineItem:       [ { position: 50, label: 'Net Value' } ],
+    identification: [ { position: 50, label: 'Net Value' } ]
+  }
+  NetValue;
+
+  @UI: {
+    lineItem:       [ { position: 55, label: 'Currency' } ],
+    identification: [ { position: 55, label: 'Currency' } ]
+  }
+  @Consumption.valueHelpDefinition: [{ entity: { name: 'I_Currency', element: 'Currency' } }]
+  CurrencyCode;
+
+  @UI: {
+    lineItem:       [ { position: 60, label: 'Delivery Date' } ],
+    identification: [ { position: 60, label: 'Delivery Date' } ]
+  }
+  DeliveryDate;
+
+  @UI: {
+    lineItem:       [ { position: 70, label: 'Value Category' } ],
+    identification: [ { position: 70, label: 'Value Category' } ]
+  }
+  ItemValueCategory;
+}
